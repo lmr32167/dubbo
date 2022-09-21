@@ -127,7 +127,7 @@
         <arguments />
         <checkstyle.skip>true</checkstyle.skip>
         <rat.skip>true</rat.skip>
-        <revision>2.7.18</revision>
+        <revision>2.7.18-XIAOMI</revision>
     </properties>
 
     <modules>
@@ -448,7 +448,20 @@
             </build>
         </profile>
     </profiles>
-
+    
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>maven-release-virtual</name>
+            <url>https://pkgs.d.xiaomi.net/artifactory/maven-release-virtual</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>maven-snapshot-virtual</name>
+            <url>https://pkgs.d.xiaomi.net/artifactory/maven-snapshot-virtual</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
     <build>
         <!-- Used for packaging NOTICE & LICENSE to each sub-module jar-->
         <resources>

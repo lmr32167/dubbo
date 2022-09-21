@@ -32,7 +32,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <revision>2.7.18</revision>
+        <revision>2.7.18-XIAOMI</revision>
         <maven_flatten_version>1.1.0</maven_flatten_version>
     </properties>
 
@@ -88,7 +88,18 @@
             </plugin>
         </plugins>
     </build>
-
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>maven-release-virtual</name>
+            <url>https://pkgs.d.xiaomi.net/artifactory/maven-release-virtual</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>maven-snapshot-virtual</name>
+            <url>https://pkgs.d.xiaomi.net/artifactory/maven-snapshot-virtual</url>
+        </snapshotRepository>
+    </distributionManagement>
     <profiles>
         <profile>
             <id>release</id>
