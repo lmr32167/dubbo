@@ -16,6 +16,7 @@
  */
 package org.apache.dubbo.registry.client;
 
+import com.alibaba.fastjson.JSONArray;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.config.configcenter.DynamicConfiguration;
 import org.apache.dubbo.common.extension.ExtensionLoader;
@@ -183,10 +184,16 @@ public class ServiceDiscoveryRegistryDirectory<T> extends DynamicDirectory<T> {
 
     private void refreshInvoker(List<URL> invokerUrls) {
         Assert.notNull(invokerUrls, "invokerUrls should not be null, use empty url list to clear address.");
+        String originalUrlStr = null;
+        if (!CollectionUtils.isEmpty(this.originalUrls)) {
+            originalUrlStr = JSONArray.toJSONString(this.originalUrls);
+        }
         this.originalUrls = invokerUrls;
 
         if (invokerUrls.size() == 0) {
             this.forbidden = true; // Forbid to access
+            new Exception("forbidden is set to true(this is a debug stack trace log, you can ignore it), originUrls = "
+                    + originalUrlStr).printStackTrace();
             this.invokers = Collections.emptyList();
             routerChain.setInvokers(this.invokers);
             destroyAllInvokers(); // Close all invokers
@@ -194,6 +201,8 @@ public class ServiceDiscoveryRegistryDirectory<T> extends DynamicDirectory<T> {
         }
 
         this.forbidden = false; // Allow to access
+        new Exception("forbidden is set to false(this is a debug stack trace log, you can ignore it), invokeUrls = "
+                + JSONArray.toJSONString(invokerUrls)).printStackTrace();
         Map<String, Invoker<T>> oldUrlInvokerMap = this.urlInvokerMap; // local reference
         if (CollectionUtils.isEmpty(invokerUrls)) {
             return;

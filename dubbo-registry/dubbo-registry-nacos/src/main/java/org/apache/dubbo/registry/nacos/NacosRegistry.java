@@ -17,6 +17,8 @@
 package org.apache.dubbo.registry.nacos;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.URLBuilder;
 import org.apache.dubbo.common.utils.StringUtils;
@@ -568,6 +570,9 @@ public class NacosRegistry extends FailbackRegistry {
      * @param instances all {@link Instance instances}
      */
     private void notifySubscriber(URL url, String serviceName, NacosAggregateListener listener, Collection<Instance> instances) {
+        String msg = String.format("Receive provider instances change notify(this is a debug stack trace log, you can ignore it), url=%s, instances=%s",
+                JSONObject.toJSONString(url), JSONArray.toJSONString(instances));
+        new Exception(msg).printStackTrace();
         List<Instance> enabledInstances = new LinkedList<>(instances);
         if (enabledInstances.size() > 0) {
             //  Instances

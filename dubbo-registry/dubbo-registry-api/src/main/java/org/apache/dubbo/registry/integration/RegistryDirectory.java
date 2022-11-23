@@ -17,6 +17,7 @@
 package org.apache.dubbo.registry.integration;
 
 import java.util.HashMap;
+import com.alibaba.fastjson.JSONArray;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.config.configcenter.DynamicConfiguration;
 import org.apache.dubbo.common.constants.CommonConstants;
@@ -171,6 +172,8 @@ public class RegistryDirectory<T> extends DynamicDirectory<T> {
                 && invokerUrls.get(0) != null
                 && EMPTY_PROTOCOL.equals(invokerUrls.get(0).getProtocol())) {
             this.forbidden = true; // Forbid to access
+            new Exception("forbidden is set to true(this is a debug stack trace log, you can ignore it), invokerUrl = "
+                    + JSONArray.toJSONString(invokerUrls)).printStackTrace();
             this.invokers = Collections.emptyList();
             routerChain.setInvokers(this.invokers);
             destroyAllInvokers(); // Close all invokers
@@ -189,6 +192,8 @@ public class RegistryDirectory<T> extends DynamicDirectory<T> {
                 return;
             }
             this.forbidden = false; // Allow to access
+            new Exception("forbidden is set to false(this is a debug stack trace log, you can ignore it), invokeUrls = "
+                    + JSONArray.toJSONString(invokerUrls)).printStackTrace();
             Map<URL, Invoker<T>> newUrlInvokerMap = toInvokers(invokerUrls);// Translate url list to Invoker map
 
             /**
